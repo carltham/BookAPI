@@ -26,7 +26,7 @@ Victor D. sent the following messages at 10:03 PM
 👍
 
 
-Implement spring boot API<br />
-Should handles books.<br />
-CRUD methods<br />
-Create, Get, Update, Delete<br />
+* Implement spring boot API<br />
+* Should handles books.<br />
+* CRUD methods<br />
+* Create, Get, Update, Delete<br />
