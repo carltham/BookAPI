@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package com.mycompany.bookapi;
+package com.mycompany.bookapi.repository;
 
 import com.mycompany.dto.Book;
 import java.util.List;
@@ -11,16 +11,14 @@ import java.util.List;
  *
  * @author carl
  */
-interface BookAPI {
+public interface BookRepository {
 
-    public List<Book> all();
+    public List<Book> findAll();
 
-    public Book newBook(Book newBook);
+    public Book save(Book newBook);
 
-    public Book one(Long id);
+    public Book findById(Long id);
 
-    public Book replaceBook(Book newBook, Long id);
+    public void deleteById(Long id);
 
-    public void deleteBook(Long id);
-    
 }

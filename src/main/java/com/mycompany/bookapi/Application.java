@@ -3,17 +3,17 @@
  */
 package com.mycompany.bookapi;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 
 /**
  *
  * @author carl
  */
 @SpringBootApplication
-public class BookAPI {
+public class Application {
 
     public static void main(String[] args) {
-        System.out.println("Hello " + BookAPI.class.getSimpleName() + "!");
+        SpringApplication.run(Application.class, args);
     }
 }
