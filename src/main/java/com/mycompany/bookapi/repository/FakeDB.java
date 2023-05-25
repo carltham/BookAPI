@@ -4,30 +4,31 @@
  */
 package com.mycompany.bookapi.repository;
 
-import com.mycompany.dto.Book;
+import com.mycompany.bookapi.dto.Book;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author carl
  */
-@Component
 public class FakeDB {
 
-    private Map<Long, Book> booksMap = new HashMap<>();
-    private Long lastId = 0l;
+    private static Map<Long, Book> booksMap = new HashMap<>();
+    private static Long lastId = 0l;
 
-    public List<Book> findAll() {
+    private FakeDB() {
+    }
+
+    public static List<Book> findAll() {
         return booksMap.values().stream()
                 .collect(Collectors.toList());
     }
 
-    Book save(Book newBook) {
+    public static Book save(Book newBook) {
         if (newBook.getId() == null) {
             newBook.setId(lastId++);
         }
@@ -35,25 +36,26 @@ public class FakeDB {
         return newBook;
     }
 
-    void deleteById(Long id) {
+    public static void deleteById(Long id) {
         booksMap.remove(id);
     }
 
-    public Book findById(Long id) {
+    public static Book findById(Long id) {
         Book result = booksMap.get(id);
 
         System.out.println("FakeDB::findById-booksMap=" + booksMap);
         return result;
     }
 
-    public synchronized void load(List<Book> newBooksList) {
+    public static void load(List<Book> newBooksList) {
+
+        lastId = 0l;
         newBooksList.forEach((book) -> {
             if (book.getId() == null) {
                 book.setId(lastId++);
             }
         });
         booksMap = newBooksList.stream().collect(Collectors.toMap(Book::getId, Function.identity()));
-        lastId = 0l;
     }
 
 }

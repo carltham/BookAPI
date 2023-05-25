@@ -1,4 +1,4 @@
-package com.mycompany.dto;
+package com.mycompany.bookapi.dto;
 
 /**
  *

@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.bookapi;
+package com.mycompany.bookapi.pub;
 
+import com.mycompany.bookapi.dto.Book;
+import com.mycompany.bookapi.dto.BookDTO;
 import com.mycompany.bookapi.repository.BookRepository;
-import com.mycompany.dto.Book;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,20 +27,22 @@ public class BookAPIImpl implements BookAPI {
 
     // Aggregate root
     // tag::get-aggregate-root[]
-    @GetMapping("/books")
-    public List<Book> all() {
-        return repository.findAll();
+    @GetMapping(path = "/books", produces = "application/json")
+    public List<Book> list() {
+        List<Book> books = repository.findAll();
+        System.out.println("books=" + books);
+        return books;
     }
     // end::get-aggregate-root[]
 
-    @PostMapping("/books")
-    public Book newBook(@RequestBody Book newBook) {
+    @PostMapping(path = "/books", consumes = "application/json", produces = "application/json")
+    public Book create(@RequestBody BookDTO newBook) {
         return repository.save(newBook);
     }
 
     // Single item
-    @GetMapping("/books/{id}")
-    public Book one(@PathVariable Long id) {
+    @GetMapping(path = "/books/{id}", produces = "application/json")
+    public Book read(@PathVariable Long id) {
 
         Book book = repository.findById(id);
         if (book == null) {
@@ -52,23 +51,23 @@ public class BookAPIImpl implements BookAPI {
         return book;
     }
 
-    @PutMapping("/books/{id}")
-    public Book replaceBook(@RequestBody Book newBook, @PathVariable Long id) {
+    @PutMapping(path = "/books/{id}", produces = "application/json")
+    public BookDTO update(@RequestBody BookDTO newBook, @PathVariable Long id) {
 
         Book book = repository.findById(id);
         if (book != null) {
             book.setTitle(newBook.getTitle());
-            return repository.save(book);
+            return (BookDTO) repository.save(book);
 
         } else {
             newBook.setId(id);
-            return repository.save(newBook);
+            return (BookDTO) repository.save(newBook);
 
         }
     }
 
     @DeleteMapping("/books/{id}")
-    public void deleteBook(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         repository.deleteById(id);
     }
 

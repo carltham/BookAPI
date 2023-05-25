@@ -1,4 +1,4 @@
-package com.mycompany.dto;
+package com.mycompany.bookapi.dto;
 
 /**
  *
@@ -8,6 +8,9 @@ public class BookDTO implements Book {
 
     private String title;
     private Long id;
+
+    public BookDTO() {
+    }
 
     public BookDTO(String newTitle) {
         title = newTitle;
