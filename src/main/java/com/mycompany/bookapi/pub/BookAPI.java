@@ -1,6 +1,5 @@
 package com.mycompany.bookapi.pub;
 
-import com.mycompany.bookapi.dto.Book;
 import com.mycompany.bookapi.dto.BookDTO;
 import java.util.List;
 
@@ -10,11 +9,11 @@ import java.util.List;
  */
 public interface BookAPI {
 
-    public List<Book> list();
+    public List<BookDTO> list();
 
-    public Book create(BookDTO newBook);
+    public BookDTO create(BookDTO newBook);
 
-    public Book read(Long id);
+    public BookDTO read(Long id);
 
     public BookDTO update(BookDTO newBook, Long id);
 

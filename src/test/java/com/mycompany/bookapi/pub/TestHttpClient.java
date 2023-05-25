@@ -1,6 +1,6 @@
 package com.mycompany.bookapi.pub;
 
-import com.mycompany.bookapi.dto.Book;
+import com.mycompany.bookapi.dto.BookDTO;
 import com.mycompany.bookapi.dto.BookDTO;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,8 +24,7 @@ public class TestHttpClient {
 
         URI BASE_URL = new URI(_API_URL + endPoint);
         ResponseEntity<List<BookDTO>> responseEntity
-                = restTemplate.exchange(
-                        BASE_URL,
+                = restTemplate.exchange(BASE_URL,
                         HttpMethod.GET,
                         null,
                         new ParameterizedTypeReference<List<BookDTO>>() {
@@ -37,13 +36,12 @@ public class TestHttpClient {
         return exchange(endPoint, method, null);
     }
 
-    static ResponseEntity<BookDTO> exchange(String endPoint, HttpMethod method, Book book) throws URISyntaxException {
+    static ResponseEntity<BookDTO> exchange(String endPoint, HttpMethod method, BookDTO book) throws URISyntaxException {
 
         URI BASE_URL = new URI(_API_URL + endPoint);
-        RequestEntity<Book> entity = RequestEntity.method(method, BASE_URL).body(book);
+        RequestEntity<BookDTO> entity = RequestEntity.method(method, BASE_URL).body(book);
         ResponseEntity<BookDTO> responseEntity
-                = restTemplate.exchange(
-                        BASE_URL,
+                = restTemplate.exchange(BASE_URL,
                         method,
                         entity,
                         new ParameterizedTypeReference<BookDTO>() {

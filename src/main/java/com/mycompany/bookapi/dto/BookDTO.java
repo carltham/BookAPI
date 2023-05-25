@@ -4,7 +4,7 @@ package com.mycompany.bookapi.dto;
  *
  * @author carl
  */
-public class BookDTO implements Book {
+public class BookDTO {
 
     private String title;
     private Long id;
@@ -28,7 +28,6 @@ public class BookDTO implements Book {
         return id;
     }
 
-    @Override
     public void setId(Long newId) {
         id = newId;
     }

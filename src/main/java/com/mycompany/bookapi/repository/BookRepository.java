@@ -1,6 +1,6 @@
 package com.mycompany.bookapi.repository;
 
-import com.mycompany.bookapi.dto.Book;
+import com.mycompany.bookapi.dto.BookDTO;
 import java.util.List;
 
 /**
@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface BookRepository {
 
-    public List<Book> findAll();
+    public List<BookDTO> findAll();
 
-    public Book save(Book newBook);
+    public BookDTO save(BookDTO newBook);
 
-    public Book findById(Long id);
+    public BookDTO findById(Long id);
 
     public void deleteById(Long id);
 

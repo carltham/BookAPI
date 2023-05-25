@@ -1,6 +1,5 @@
 package com.mycompany.bookapi.pub;
 
-import com.mycompany.bookapi.dto.Book;
 import com.mycompany.bookapi.dto.BookDTO;
 import com.mycompany.bookapi.repository.FakeDB;
 import com.mycompany.bookapi.test.TestBooks;
@@ -27,14 +26,14 @@ public class BookAPITest {
     @Autowired
     private BookAPI instance;
 
-    private Book newBook;
+    private BookDTO newBook;
 
     @BeforeEach
     public void setup() {
 
         newBook = new BookDTO("tttt");
 
-        List<Book> loadedBooks = TestBooks.createList(TestConstants._TEST_TITLE, 5);
+        List<BookDTO> loadedBooks = TestBooks.createList(TestConstants._TEST_TITLE, 5);
         FakeDB.load(loadedBooks);
     }
 
@@ -48,7 +47,7 @@ public class BookAPITest {
 
 //WHEN
 //THEN
-        Book result = instance.create((BookDTO) newBook);
+        BookDTO result = instance.create((BookDTO) newBook);
 //VERIFY
         assertThat(result).isEqualTo(newBook);
     }
@@ -57,9 +56,9 @@ public class BookAPITest {
     public void testList() {
 
 //WHEN
-        List<Book> expResult = FakeDB.findAll();
+        List<BookDTO> expResult = FakeDB.findAll();
 //THEN
-        List<Book> result = instance.list();
+        List<BookDTO> result = instance.list();
 //VERIFY
         assertThat(result).isEqualTo(expResult);
     }
@@ -68,9 +67,9 @@ public class BookAPITest {
     public void testRead_OK() {
 
 //WHEN
-        Book expResult = FakeDB.findById(TestConstants._TEST_ID2);
+        BookDTO expResult = FakeDB.findById(TestConstants._TEST_ID2);
 //THEN
-        Book result = instance.read(TestConstants._TEST_ID2);
+        BookDTO result = instance.read(TestConstants._TEST_ID2);
 //VERIFY
         assertThat(result).isEqualTo(expResult);
 
@@ -80,10 +79,10 @@ public class BookAPITest {
     public void testRead_FAIL() throws URISyntaxException {
 
 //WHEN
-        Book expResult = FakeDB.findById(TestConstants._TEST_ID9);
+        BookDTO expResult = FakeDB.findById(TestConstants._TEST_ID9);
         try {
 //THEN
-            Book book = instance.read(TestConstants._TEST_ID9);
+            BookDTO book = instance.read(TestConstants._TEST_ID9);
 
 //VERIFY
             assertThat(book).isNotNull();
@@ -101,7 +100,7 @@ public class BookAPITest {
 
 //WHEN
 //THEN
-        Book result = instance.update((BookDTO) newBook, TestConstants._TEST_ID2);
+        BookDTO result = instance.update((BookDTO) newBook, TestConstants._TEST_ID2);
 //VERIFY
         assertThat(result.getId()).isEqualTo(TestConstants._TEST_ID2);
         assertThat(result.getTitle()).isEqualTo(newBook.getTitle());
@@ -111,7 +110,7 @@ public class BookAPITest {
     public void testDelete() {
 
 //WHEN
-        Book expResult = FakeDB.findById(TestConstants._TEST_ID2);
+        BookDTO expResult = FakeDB.findById(TestConstants._TEST_ID2);
         assertThat(expResult).isNotNull();
 //THEN
         instance.delete(TestConstants._TEST_ID2);

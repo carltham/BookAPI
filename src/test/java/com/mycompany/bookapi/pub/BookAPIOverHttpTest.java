@@ -1,7 +1,7 @@
 package com.mycompany.bookapi.pub;
 
 import com.mycompany.bookapi.Application;
-import com.mycompany.bookapi.dto.Book;
+import com.mycompany.bookapi.dto.BookDTO;
 import com.mycompany.bookapi.dto.BookDTO;
 import com.mycompany.bookapi.repository.FakeDB;
 import com.mycompany.bookapi.test.TestBooks;
@@ -40,7 +40,7 @@ public class BookAPIOverHttpTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private Book newBook;
+    private BookDTO newBook;
 
     @BeforeEach
     public void setup() {
@@ -50,7 +50,7 @@ public class BookAPIOverHttpTest {
 
         newBook = new BookDTO("tttt");
 
-        List<Book> loadedBooks = TestBooks.createList(TestConstants._TEST_TITLE, 5);
+        List<BookDTO> loadedBooks = TestBooks.createList(TestConstants._TEST_TITLE, 5);
         FakeDB.load(loadedBooks);
     }
 
@@ -63,7 +63,7 @@ public class BookAPIOverHttpTest {
     public void testCreate() throws URISyntaxException {
 //WHEN
         int nrOfBooksAtThebeginning = FakeDB.findAll().size();
-        List<Book> allBooks = FakeDB.findAll();
+        List<BookDTO> allBooks = FakeDB.findAll();
         assertThat(allBooks.size()).isEqualTo(nrOfBooksAtThebeginning);
 //THEN
         ResponseEntity<BookDTO> responseEntity = TestHttpClient.exchange("/books", HttpMethod.POST, newBook);
@@ -77,17 +77,17 @@ public class BookAPIOverHttpTest {
     @Test
     public void testList() throws MalformedURLException, URISyntaxException {
 //WHEN
-        List<Book> expectedBooks = FakeDB.findAll();
+        List<BookDTO> expectedBooks = FakeDB.findAll();
 //THEN
         ResponseEntity<List<BookDTO>> responseEntity = TestHttpClient.list("books");
         List<BookDTO> books = responseEntity.getBody();
         assertThat(books).size().isEqualTo(expectedBooks.size());
 
-        Map<Long, Book> booksMap = books.stream()
-                .collect(Collectors.toMap(Book::getId, Function.identity()));
+        Map<Long, BookDTO> booksMap = books.stream()
+                .collect(Collectors.toMap(BookDTO::getId, Function.identity()));
 //VERIFY
         expectedBooks.forEach((book) -> {
-            Book foundBook = booksMap.get(book.getId());
+            BookDTO foundBook = booksMap.get(book.getId());
             assertThat(book.getId()).isEqualTo(foundBook.getId());
             assertThat(book.getTitle()).isEqualTo(foundBook.getTitle());
         });
@@ -97,7 +97,7 @@ public class BookAPIOverHttpTest {
     public void testRead_OK() throws URISyntaxException {
 
 //WHEN
-        Book expResult = FakeDB.findById(TestConstants._TEST_ID2);
+        BookDTO expResult = FakeDB.findById(TestConstants._TEST_ID2);
 //THEN
         ResponseEntity<BookDTO> responseEntity = TestHttpClient.exchange("/books/" + TestConstants._TEST_ID2, HttpMethod.GET);
         BookDTO book = responseEntity.getBody();
@@ -112,7 +112,7 @@ public class BookAPIOverHttpTest {
     public void testRead_FAIL() throws URISyntaxException {
 
 //WHEN
-        Book expResult = FakeDB.findById(TestConstants._TEST_ID9);
+        BookDTO expResult = FakeDB.findById(TestConstants._TEST_ID9);
 //THEN
         ResponseEntity<BookDTO> responseEntity = TestHttpClient.exchange("/books/" + TestConstants._TEST_ID9, HttpMethod.GET);
         BookDTO book = responseEntity.getBody();
@@ -139,7 +139,7 @@ public class BookAPIOverHttpTest {
         BookDTO book = responseEntity.getBody();
 
 //VERIFY
-        List<Book> allBooks = FakeDB.findAll();
+        List<BookDTO> allBooks = FakeDB.findAll();
         assertThat(book.getId()).isEqualTo(TestConstants._TEST_ID2);
         assertThat(book.getTitle()).isEqualTo(newBook.getTitle());
         assertThat(allBooks.size()).isEqualTo(nrOfBooksAtThebeginning);
@@ -150,7 +150,7 @@ public class BookAPIOverHttpTest {
 
 //WHEN
         int nrOfBooksAtThebeginning = FakeDB.findAll().size();
-        Book expResult = FakeDB.findById(TestConstants._TEST_ID2);
+        BookDTO expResult = FakeDB.findById(TestConstants._TEST_ID2);
         assertThat(expResult).isNotNull();
 
 //THEN
@@ -158,7 +158,7 @@ public class BookAPIOverHttpTest {
         BookDTO book = responseEntity.getBody();
 
 //VERIFY
-        List<Book> allBooks = FakeDB.findAll();
+        List<BookDTO> allBooks = FakeDB.findAll();
         expResult = FakeDB.findById(TestConstants._TEST_ID2);
         assertThat(expResult).isNull();
         assertThat(allBooks.size()).isEqualTo(nrOfBooksAtThebeginning - 1);

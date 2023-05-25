@@ -1,6 +1,6 @@
 package com.mycompany.bookapi.repository;
 
-import com.mycompany.bookapi.dto.Book;
+import com.mycompany.bookapi.dto.BookDTO;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +15,12 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> findAll() {
+    public List<BookDTO> findAll() {
         return FakeDB.findAll();
     }
 
     @Override
-    public Book save(Book newBook) {
+    public BookDTO save(BookDTO newBook) {
         return FakeDB.save(newBook);
     }
 
@@ -30,7 +30,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Book findById(Long id) {
+    public BookDTO findById(Long id) {
         return FakeDB.findById(id);
     }
 

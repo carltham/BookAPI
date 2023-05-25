@@ -1,6 +1,5 @@
 package com.mycompany.bookapi.pub;
 
-import com.mycompany.bookapi.dto.Book;
 import com.mycompany.bookapi.dto.BookDTO;
 import com.mycompany.bookapi.repository.BookRepository;
 import java.util.List;
@@ -25,26 +24,22 @@ public class BookAPIImpl implements BookAPI {
         this.repository = repository;
     }
 
-    // Aggregate root
-    // tag::get-aggregate-root[]
     @GetMapping(path = "/books", produces = "application/json")
-    public List<Book> list() {
-        List<Book> books = repository.findAll();
+    public List<BookDTO> list() {
+        List<BookDTO> books = repository.findAll();
         System.out.println("books=" + books);
         return books;
     }
-    // end::get-aggregate-root[]
 
     @PostMapping(path = "/books", consumes = "application/json", produces = "application/json")
-    public Book create(@RequestBody BookDTO newBook) {
+    public BookDTO create(@RequestBody BookDTO newBook) {
         return repository.save(newBook);
     }
 
-    // Single item
     @GetMapping(path = "/books/{id}", produces = "application/json")
-    public Book read(@PathVariable Long id) {
+    public BookDTO read(@PathVariable Long id) {
 
-        Book book = repository.findById(id);
+        BookDTO book = repository.findById(id);
         if (book == null) {
             throw new BookNotFoundException(id);
         }
@@ -54,7 +49,7 @@ public class BookAPIImpl implements BookAPI {
     @PutMapping(path = "/books/{id}", produces = "application/json")
     public BookDTO update(@RequestBody BookDTO newBook, @PathVariable Long id) {
 
-        Book book = repository.findById(id);
+        BookDTO book = repository.findById(id);
         if (book != null) {
             book.setTitle(newBook.getTitle());
             return (BookDTO) repository.save(book);
